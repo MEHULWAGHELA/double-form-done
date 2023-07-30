@@ -36,7 +36,7 @@ const FormComponent = () => {
         value.setobj({ ...value.obj })
         value.setarray([...value.array])
         value.setcount(value.count)
-        value.setobj({})
+        value.setobj({ id: '', title: '', subtitle: '', image: '', information: '' })
         value.seteditid(value.editid)
         fileref.current.value = ""
     }
@@ -121,27 +121,7 @@ const FormComponent = () => {
                     </div>
                 </Form>
             </div>
-            <CardComponent value={value.array} >
-                <thead>
-                    <tr>
-                        <th>
-                            Sr No.
-                        </th>
-                        <th>
-                            Title
-                        </th>
-                        <th>
-                            SubTitle
-                        </th>
-                        <th>
-                            Image
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-            </CardComponent >
+            <CardComponent value={value.array} />
         </div>
     )
 }

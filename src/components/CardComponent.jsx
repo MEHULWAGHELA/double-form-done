@@ -2,15 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'reactstrap'
 
 const CardComponent = (props) => {
-    console.log(props)
     const deletefunction = (id) => {
-        props.value.array.splice(props.value.array.findIndex(x => x.id == id), 1)
+        props.value.array.splice(props.value.findIndex(x => x.id == id), 1)
         props.value.setarray([...props.value.array])
     }
 
     const editfunction = (id) => {
         props.value.seteditid(id)
-        props.value.obj = props.value.array.find((x) => x.id == id)
+        props.value.obj = props.value.find((x) => x.id == id)
         props.value.setobj({ ...props.value.obj })
     }
 
@@ -23,32 +22,50 @@ const CardComponent = (props) => {
                 size=""
                 striped
             >
-                {props.children}
+                <thead>
+                    {props.value.map((obj, i) => {
+                        return (
+                            <>
+                                {i == 0 &&
+                                    <tr key={i} >
+                                        {Object.keys(obj).map((keys, j) => {
+                                            return (
+                                                <td scope="col">{keys}</td>
+                                            )
+                                        })
+                                        }
+                                        <td scope="col">Action</td>
+                                    </tr>}
+                            </>
+                        )
+                    })}
+                </thead>
                 <tbody>
-                    {props.value?.map((x, i) => {
+                    {props.value.map((obj, i) => {
                         return (
                             <tr key={i}>
-                                <th scope="row">
-                                    {i + 1}
-                                </th>
-                                <td>
-                                    {x.title || x.name}
-                                </td>
-                                <td>
-                                    {x.subtitle || x.surname}
-                                </td>
-                                <td>
-                                    <img src={x.image || x.imagesecond} style={{ height: '50px', width: "50px", objectFit: 'cover' }} alt="" />
-                                </td>
-                                <td>
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                                {Object.keys(obj).map((keys, j) => {
+                                    if (keys == "image") {
+                                        return (
+                                            <td>
+                                                <img src={obj[keys]} alt="" style={{ width: "100px", height: '100px', objectFit: "cover" }} />
+                                            </td>
+                                        )
+                                    } else {
+                                        return (
+                                            <td scope="row" key={j}>{obj[keys]}</td>
+                                        )
+                                    }
+                                })}
+                                <td scope='col'>
+                                    <button onClick={() => { editfunction(obj.id) }}>Edit</button>
+                                    <button onClick={() => { deletefunction(obj.id) }}>Delete</button>
                                 </td>
                             </tr>
                         )
                     })}
                 </tbody>
-            </Table>
+            </Table >
         </>
     )
 }

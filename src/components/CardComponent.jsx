@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'reactstrap'
+import { Cardcontext } from '../App'
 
 const CardComponent = (props) => {
+    let value = useContext(Cardcontext)
     const deletefunction = (id) => {
-        props.value.array.splice(props.value.findIndex(x => x.id == id), 1)
-        props.value.setarray([...props.value.array])
+        value.array.splice(value.array.findIndex(x => x.id == id), 1)
+        value.count--;
+        value.setarray([...value.array])
+        value.setcount([...value.count])
     }
 
     const editfunction = (id) => {
